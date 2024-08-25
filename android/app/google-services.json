@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "766017285369",
+    "project_id": "userhub-14d02",
+    "storage_bucket": "userhub-14d02.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766017285369:android:20f604844b3849e68a8628",
+        "android_client_info": {
+          "package_name": "com.userhub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChg4oBOSmQi2k3oI3zrN7xH4wdL7u13w8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
