@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import { getUser, updateUser } from '../../services/database';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { dateFormat } from '../../utils/dateFormat';
+import auth from '@react-native-firebase/auth';
 
 const ProfileScreen = ({ navigation }) => {
   const [user, setUser] = useState();
@@ -36,8 +37,16 @@ const ProfileScreen = ({ navigation }) => {
     }
   };
 
-  useEffect(async () => {
-    await getUserData();
+  const handleLogout = async () => {
+    try {
+      await auth().signOut();
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
+
+  useEffect(() => {
+    getUserData();
   }, [])
 
   return (
@@ -45,33 +54,42 @@ const ProfileScreen = ({ navigation }) => {
       <Text style={styles.title}>Profile</Text>
 
       {user &&
-        <View style={styles.profileContainer}>
-          <Text style={styles.label}>Email:</Text>
-          <Text style={styles.value}>{user.email}</Text>
+        <View>
+          <View style={styles.profileContainer}>
+            <Text style={styles.label}>Email:</Text>
+            <Text style={styles.value}>{user.email}</Text>
 
-          <Text style={styles.label}>User ID:</Text>
-          <Text style={styles.value}>{user.id}</Text>
+            <Text style={styles.label}>User ID:</Text>
+            <Text style={styles.value}>{user.id}</Text>
 
-          <Text style={styles.label}>Join Date:</Text>
-          <Text style={styles.value}>{dateFormat(user.joinDate)}</Text>
+            <Text style={styles.label}>Join Date:</Text>
+            <Text style={styles.value}>{dateFormat(user.joinDate)}</Text>
 
-          <Text style={styles.label}>Name:</Text>
-          {isEditing ? (
-            <TextInput
-              style={styles.input}
-              value={name}
-              onChangeText={setName}
-              placeholder="Enter new name"
-            />
-          ) : (
-            <Text style={styles.value}>{user.name}</Text>
-          )}
+            <Text style={styles.label}>Name:</Text>
+            {isEditing ? (
+              <TextInput
+                style={styles.input}
+                value={name}
+                onChangeText={setName}
+                placeholder="Enter new name"
+              />
+            ) : (
+              <Text style={styles.value}>{user.name}</Text>
+            )}
 
-          {isEditing ? (
-            <Button title="Save" onPress={handleUpdateName} />
-          ) : (
-            <Button title="Edit" onPress={handleEdit} />
-          )}
+            {isEditing ? (
+              <TouchableOpacity style={styles.button} onPress={handleUpdateName}>
+                <Text style={styles.buttonText}>Save</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity style={styles.button} onPress={handleEdit}>
+                <Text style={styles.buttonText}>Edit</Text>
+              </TouchableOpacity>
+            )}
+          </View>
+          <TouchableOpacity style={{ ...styles.button, marginTop: 20 }} onPress={handleLogout}>
+            <Text style={styles.buttonText}>Logout</Text>
+          </TouchableOpacity>
         </View>
       }
     </View>
@@ -118,6 +136,20 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     paddingHorizontal: 8,
     marginBottom: 16,
+  },
+  button: {
+    width: '100%',
+    height: 50,
+    backgroundColor: '#6200ee',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8,
+    marginBottom: 20,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 

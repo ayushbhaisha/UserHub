@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 const ContactFormScreen = () => {
-  const handleSubmit = (values, {resetForm}) => {
+  const handleSubmit = (values, { resetForm }) => {
     console.log('Form values:', values);
     resetForm();
   };
@@ -50,8 +50,9 @@ const ContactFormScreen = () => {
               multiline
             />
             {touched.message && errors.message ? <Text style={styles.error}>{errors.message}</Text> : null}
-
-            <Button title="Submit" onPress={handleSubmit} />
+            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+              <Text style={styles.buttonText}>Submit</Text>
+            </TouchableOpacity>
           </View>
         )}
       </Formik>
@@ -66,11 +67,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   input: {
+    width: '100%',
+    height: 50,
+    borderColor: '#ddd',
     borderWidth: 1,
-    borderColor: '#ccc',
-    padding: 10,
-    marginBottom: 10,
-    borderRadius: 5,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    marginBottom: 20,
+    backgroundColor: '#fff',
   },
   textArea: {
     height: 100,
@@ -78,6 +82,20 @@ const styles = StyleSheet.create({
   error: {
     color: 'red',
     marginBottom: 10,
+  },
+  button: {
+    width: '100%',
+    height: 50,
+    backgroundColor: '#6200ee',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8,
+    marginBottom: 20,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 

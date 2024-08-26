@@ -11,9 +11,8 @@ const DashboardScreen = () => {
     return results
   }
 
-  useEffect(async () => {
-    const users = await fetchUsers();
-    createGraphData(users);
+  useEffect(() => {
+    fetchUsers().then((res) => createGraphData(res));
   }, []);
 
   const createGraphData = (users) => {
@@ -41,8 +40,8 @@ const DashboardScreen = () => {
   const chartConfig = {
     backgroundGradientFrom: '#f7f7f7',
     backgroundGradientTo: '#f7f7f7',
-    color: (opacity = 1) => `rgba(34, 202, 236, ${opacity})`,
-    labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+    color: (opacity = 1) => `rgba(98, 0, 238, ${opacity})`,
+    labelColor: (opacity = 1) => `rgba(98, 0, 238, ${opacity})`,
     strokeWidth: 2,
     barPercentage: 0.7,
     useShadowColorFromDataset: false,
